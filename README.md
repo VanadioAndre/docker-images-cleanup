@@ -16,6 +16,28 @@ para servidores de CI/CD que acumulam imagens de build ao longo do tempo.
    de colocar em produção.
 7. Loga em arquivo com rotação (5 arquivos de até 5MB) e no stdout.
 
+## Permissões
+
+O script tenta escrever logs em `/var/log/docker-cleanup/` por padrão.
+Se rodar como usuário comum (não root) e essa pasta não existir, o
+script agora cai automaticamente para `~/.local/share/docker-cleanup/`
+e avisa no stderr — então não quebra a execução.
+
+Para usar o caminho padrão em `/var/log`, crie a pasta uma vez com o
+dono correto:
+
+```bash
+sudo mkdir -p /var/log/docker-cleanup
+sudo chown $USER /var/log/docker-cleanup   # ou o usuário/serviço que vai rodar o script
+```
+
+Também é preciso que o usuário que roda o script tenha permissão para
+falar com o Docker (root ou membro do grupo `docker`):
+
+```bash
+sudo usermod -aG docker $USER   # relogar depois para o grupo ter efeito
+```
+
 ## Testar antes de agendar
 
 ```bash
