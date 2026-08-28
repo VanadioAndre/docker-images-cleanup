@@ -1,0 +1,13 @@
+[Unit]
+Description=Executa docker-cleanup.service a cada 10 dias
+
+[Timer]
+# Primeira execução 5 min após o boot, depois a cada 10 dias reais
+# (independente de reinícios, ao contrário do cron)
+OnBootSec=5min
+OnUnitActiveSec=10d
+Persistent=true
+Unit=docker-cleanup.service
+
+[Install]
+WantedBy=timers.target

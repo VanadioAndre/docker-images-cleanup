@@ -1,0 +1,10 @@
+[Unit]
+Description=Limpeza automática de imagens Docker não utilizadas
+Wants=network-online.target
+After=docker.service
+
+[Service]
+Type=oneshot
+# Ajuste o caminho conforme onde o script for instalado
+ExecStart=/usr/bin/python3 /opt/scripts/docker-cleanup/docker_cleanup.py --max-age-days 10 --keep-last 3
+User=root
